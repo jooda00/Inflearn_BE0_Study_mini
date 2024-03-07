@@ -9,22 +9,25 @@ import com.mini.commute.entity.employee.Employee;
 import com.mini.commute.entity.work.Work;
 import com.mini.commute.repository.employee.EmployeeRepository;
 import com.mini.commute.repository.work.WorkRepository;
+import com.mini.commute.repository.work.WorkRepositoryUsingQD;
+import com.mini.commute.repository.work.WorkRepositoryUsingQDImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 public class WorkService {
     private final WorkRepository workRepository;
     private final EmployeeRepository employeeRepository;
+    private final WorkRepositoryUsingQD workRepositoryUsingQD;
 
-    public WorkService(WorkRepository workRepository, EmployeeRepository employeeRepository) {
+    public WorkService(WorkRepository workRepository, EmployeeRepository employeeRepository, WorkRepositoryUsingQDImpl workRepositoryUsingQD) {
         this.workRepository = workRepository;
         this.employeeRepository = employeeRepository;
+        this.workRepositoryUsingQD = workRepositoryUsingQD;
     }
 
     // 출근 -> 퇴근 -> 출근도 "해당 직원은 이미 출근한 상태입니다." 예외가 던져짐
@@ -63,17 +66,12 @@ public class WorkService {
         LocalDate startDate = date.withDayOfMonth(1);
         LocalDate endDate = date.withDayOfMonth(date.lengthOfMonth());
 
-        // querydsl?
-        List<Work> workTimes = workRepository.findAllByEmployeeIdAndDateBetweenAndIsArrivedFalseOrderByDateAsc(id, startDate, endDate);
-        if(workTimes.isEmpty()) {
+        List<WorkResponseByEmployee> response = workRepositoryUsingQD.findAllWorkingMinutes(id, startDate, endDate);
+        if(response.isEmpty()) {
             throw new CustomException(ErrorCode.EMPLOYEE_NOT_WORK_DURING_DATE);
         }
 
-        long sum = workTimes.stream().mapToLong(Work::getWorkingMinutes).sum();
-        List<WorkResponseByEmployee> responses = workTimes.stream()
-                .map(workTime -> new WorkResponseByEmployee(workTime))
-                .collect(Collectors.toList());
-
-        return new WorkResponseWithSum(responses, sum);
+        long totalMinutes = response.stream().mapToLong(WorkResponseByEmployee::getWorkingMinutes).sum();
+        return new WorkResponseWithSum(response, totalMinutes);
     }
 }
