@@ -1,4 +1,4 @@
-package com.mini.commute.entity.workTime;
+package com.mini.commute.entity.work;
 
 import com.mini.commute.entity.employee.Employee;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,49 +14,49 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class WorkTimeTest {
-    private WorkTime workTime;
+public class WorkTest {
+    private Work work;
     private Employee employee;
 
     @BeforeEach
     void setUp() {
         employee = new Employee();
-        workTime = new WorkTime();
-        workTime.setEmployee(employee);
+        work = new Work();
+        work.setEmployee(employee);
     }
 
     @DisplayName("아직 출근하지 않은 회사 직원은 출근할 수 있다.")
     @Test
     void startWork() {
         // 출근 전
-        assertThat(false).isEqualTo(workTime.isArrived());
+        assertThat(false).isEqualTo(work.isArrived());
 
-        workTime.startWork();
+        work.startWork();
 
         // 출근 후
-        assertThat(true).isEqualTo(workTime.isArrived());
+        assertThat(true).isEqualTo(work.isArrived());
     }
 
     @DisplayName("출근한 회사 직원은 퇴근할 수 있다.")
     @Test
     void endWork() {
-        workTime.startWork();
-        workTime.endWork();
+        work.startWork();
+        work.endWork();
 
-        assertThat(false).isEqualTo(workTime.isArrived());
+        assertThat(false).isEqualTo(work.isArrived());
     }
 
     @DisplayName("퇴근한 순간 근무 시간(분)이 계산된다.")
     @Test
     void calculateWorkingMinutes() {
-        workTime.startWork();
-        LocalDateTime start = workTime.getStartWorkTime();
+        work.startWork();
+        LocalDateTime start = work.getStartWorkTime();
 
-        workTime.endWork();
-        LocalDateTime end = workTime.getEndWorkTime();
+        work.endWork();
+        LocalDateTime end = work.getEndWorkTime();
 
         long workingMinutes = ChronoUnit.MINUTES.between(start, end);
 
-        assertThat(workingMinutes).isEqualTo(workTime.getWorkingMinutes());
+        assertThat(workingMinutes).isEqualTo(work.getWorkingMinutes());
     }
 }

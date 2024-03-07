@@ -1,4 +1,4 @@
-package com.mini.commute.entity.workTime;
+package com.mini.commute.entity.work;
 
 import com.mini.commute.entity.employee.Employee;
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit;
 @Entity
 @NoArgsConstructor
 @Getter
-public class WorkTime {
+public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +29,7 @@ public class WorkTime {
     @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
-    public WorkTime(LocalDate date) {
+    public Work(LocalDate date) {
         this.date = date;
     }
 
@@ -51,6 +51,6 @@ public class WorkTime {
     /* 연관관계 메소드 */
     public void setEmployee(Employee employee) {
         this.employee = employee;
-        employee.getWorkTimes().add(this);
+        employee.getWorks().add(this);
     }
 }

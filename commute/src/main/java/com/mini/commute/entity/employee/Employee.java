@@ -1,7 +1,7 @@
 package com.mini.commute.entity.employee;
 
 import com.mini.commute.entity.team.Team;
-import com.mini.commute.entity.workTime.WorkTime;
+import com.mini.commute.entity.work.Work;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ public class Employee {
     private Team team;
 
     @OneToMany(mappedBy = "employee")
-    private List<WorkTime> workTimes = new ArrayList<WorkTime>();
+    private List<Work> works = new ArrayList<Work>();
 
     public Employee(String name, LocalDate birthday, LocalDate workStartDate, Role role) {
         this.name = name;
