@@ -15,7 +15,6 @@ public class WorkTimeTest {
     private WorkTime workTime;
     private Employee employee;
 
-
     @BeforeEach
     void setUp() {
         employee = new Employee();
@@ -33,5 +32,14 @@ public class WorkTimeTest {
 
         // 출근 후
         assertThat(true).isEqualTo(workTime.isArrived());
+    }
+
+    @DisplayName("출근한 회사 직원은 퇴근할 수 있다.")
+    @Test
+    void endWork() {
+        workTime.startWork();
+        workTime.endWork();
+
+        assertThat(false).isEqualTo(workTime.isArrived());
     }
 }
