@@ -9,9 +9,11 @@ import java.time.LocalDateTime;
 public class WorkTimeResponse {
     private boolean isArrived;
     private LocalDateTime startWorkTime;
+    private LocalDateTime endWorkTime;
 
     public WorkTimeResponse(WorkTime workTime) {
         this.isArrived = workTime.isArrived();
         this.startWorkTime = workTime.getStartWorkTime();
+        this.endWorkTime = workTime.getEndWorkTime();
     }
 }

@@ -22,9 +22,16 @@ public class WorkTimeController {
     }
 
     @PostMapping("/start/{id}/{date}")
-    public ResponseEntity<WorkTimeResponse> startWork(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
+    public ResponseEntity<ResponseData> startWork(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
         WorkTimeResponse response = workTimeService.startWork(id, date);
         ResponseData responseData = new ResponseData(200, response);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/{id}/{date}")
+    public ResponseEntity<ResponseData> endWork(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
+        WorkTimeResponse response = workTimeService.endWork(id, date);
+        ResponseData responseData = new ResponseData(200, response);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 }
