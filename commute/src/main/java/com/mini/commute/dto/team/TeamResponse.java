@@ -11,9 +11,9 @@ public class TeamResponse {
 
     public TeamResponse(Team team) {
         this.name = team.getName();
-        String manager = team.pickManager();
-        if(!manager.equals("")) {
-            this.manager = manager;
+        this.manager = String.join(", ", team.pickManager()); // Join manager names with comma
+        if(this.manager.isEmpty()) {
+            this.manager = null;
         }
         this.memberCount = team.getEmployees().size();
     }
