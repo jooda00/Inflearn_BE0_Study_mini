@@ -34,13 +34,13 @@ public class Team {
         this.annualRegisterPeriod = annualRegisterPeriod;
     }
 
-    public String pickManager() {
-        String manager = "";
+    public List<String> pickManager() {
+        List<String> managers = new ArrayList<>();
         for(Employee e : employees) {
             if(e.getRole().equals(Role.MANAGER)) {
-                manager = e.getName();
+                managers.add(e.getName());
             }
         }
-        return manager;
+        return managers;
     }
 }
