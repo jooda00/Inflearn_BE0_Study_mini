@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/api/v1/work")
+@RequestMapping("/api/v1/works")
 public class WorkTimeController {
     private final WorkTimeService workTimeService;
 
