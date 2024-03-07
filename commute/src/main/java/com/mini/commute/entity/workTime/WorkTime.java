@@ -29,6 +29,10 @@ public class WorkTime {
     @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
+    public WorkTime(LocalDate date) {
+        this.date = date;
+    }
+
     public void startWork() {
         if(!this.isArrived) {
             this.isArrived = true;
