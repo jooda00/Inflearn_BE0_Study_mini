@@ -1,6 +1,6 @@
 package com.mini.commute.service.workTime;
 
-import com.mini.commute.dto.workTime.WorkTimeStartResponse;
+import com.mini.commute.dto.workTime.WorkTimeResponse;
 import com.mini.commute.entity.employee.Employee;
 import com.mini.commute.entity.workTime.WorkTime;
 import com.mini.commute.repository.employee.EmployeeRepository;
@@ -22,7 +22,7 @@ public class WorkTimeService {
     }
 
     @Transactional
-    public WorkTimeStartResponse startWork(Long id, LocalDate date) {
+    public WorkTimeResponse startWork(Long id, LocalDate date) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 직원은 회사에 존재하지 않습니다."));
         if(workTimeRepository.findByDateAndEmployee(date, employee) != null) {
@@ -33,6 +33,6 @@ public class WorkTimeService {
         workTime.startWork();
         workTimeRepository.save(workTime);
 
-        return new WorkTimeStartResponse(workTime);
+        return new WorkTimeResponse(workTime);
     }
 }

@@ -6,11 +6,11 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class WorkTimeStartResponse {
+public class WorkTimeResponse {
     private boolean isArrived;
     private LocalDateTime startWorkTime;
 
-    public WorkTimeStartResponse(WorkTime workTime) {
+    public WorkTimeResponse(WorkTime workTime) {
         this.isArrived = workTime.isArrived();
         this.startWorkTime = workTime.getStartWorkTime();
     }

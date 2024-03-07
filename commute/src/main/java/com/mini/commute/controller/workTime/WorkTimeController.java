@@ -1,7 +1,7 @@
 package com.mini.commute.controller.workTime;
 
 import com.mini.commute.common.ResponseData;
-import com.mini.commute.dto.workTime.WorkTimeStartResponse;
+import com.mini.commute.dto.workTime.WorkTimeResponse;
 import com.mini.commute.service.workTime.WorkTimeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class WorkTimeController {
     }
 
     @PostMapping("/start/{id}/{date}")
-    public ResponseEntity<WorkTimeStartResponse> startWork(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
-        WorkTimeStartResponse response = workTimeService.startWork(id, date);
+    public ResponseEntity<WorkTimeResponse> startWork(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
+        WorkTimeResponse response = workTimeService.startWork(id, date);
         ResponseData responseData = new ResponseData(200, response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
