@@ -1,5 +1,7 @@
 package com.mini.commute.service.employee;
 
+import com.mini.commute.common.exception.CustomException;
+import com.mini.commute.common.exception.ErrorCode;
 import com.mini.commute.dto.employee.EmployeeRequest;
 import com.mini.commute.dto.employee.EmployeeResponse;
 import com.mini.commute.entity.employee.Employee;
@@ -27,7 +29,7 @@ public class EmployeeService {
     public void save(EmployeeRequest request) {
         Team team = teamRepository.findByName(request.getTeamName());
         if(team == null) {
-            throw new IllegalArgumentException("팀이 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.TEAM_NOT_FOUND);
         }
         // 먼저 Employee 객체 생성하고
         Employee employee = new Employee(request.getName(), request.getBirthday(),

@@ -1,5 +1,7 @@
 package com.mini.commute.service.work;
 
+import com.mini.commute.common.exception.CustomException;
+import com.mini.commute.common.exception.ErrorCode;
 import com.mini.commute.dto.work.WorkResponse;
 import com.mini.commute.dto.work.WorkResponseByEmployee;
 import com.mini.commute.dto.work.WorkResponseWithSum;
@@ -29,9 +31,9 @@ public class WorkService {
     @Transactional
     public WorkResponse startWork(Long id, LocalDate date) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 직원은 회사에 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.EMPLOYEE_NOT_FOUND));
         if(workRepository.findByDateAndEmployee(date, employee) != null) {
-            throw new IllegalArgumentException("해당 직원은 이미 출근한 상태입니다.");
+            throw new CustomException(ErrorCode.EMPLOYEE_ALREADY_ARRIVED_AT_COMPANY);
         }
         Work work = new Work(date);
         work.setEmployee(employee);
@@ -45,10 +47,10 @@ public class WorkService {
     @Transactional
     public WorkResponse endWork(Long id, LocalDate date) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 직원은 회사에 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.EMPLOYEE_NOT_FOUND));
         Work work = workRepository.findByDateAndEmployee(date, employee);
         if(work == null) {
-            throw new IllegalArgumentException("해당 직원은 금일 출근하지 않았습니다.");
+            throw new CustomException(ErrorCode.EMPLOYEE_NOT_ARRIVED_AT_COMPANY);
         }
         work.endWork();
 
@@ -57,14 +59,14 @@ public class WorkService {
 
     public WorkResponseWithSum getWorkingMinutes(Long id, LocalDate date) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 직원은 회사에 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.EMPLOYEE_NOT_FOUND));
         LocalDate startDate = date.withDayOfMonth(1);
         LocalDate endDate = date.withDayOfMonth(date.lengthOfMonth());
 
         // querydsl?
         List<Work> workTimes = workRepository.findAllByEmployeeIdAndDateBetweenAndIsArrivedFalseOrderByDateAsc(id, startDate, endDate);
         if(workTimes.isEmpty()) {
-            throw new IllegalArgumentException("해당 직원은 이 기간 동안 출근하지 않았습니다.");
+            throw new CustomException(ErrorCode.EMPLOYEE_NOT_WORK_DURING_DATE);
         }
 
         long sum = workTimes.stream().mapToLong(Work::getWorkingMinutes).sum();
