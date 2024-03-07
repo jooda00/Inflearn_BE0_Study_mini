@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -41,5 +44,19 @@ public class WorkTimeTest {
         workTime.endWork();
 
         assertThat(false).isEqualTo(workTime.isArrived());
+    }
+
+    @DisplayName("퇴근한 순간 근무 시간(분)이 계산된다.")
+    @Test
+    void calculateWorkingMinutes() {
+        workTime.startWork();
+        LocalDateTime start = workTime.getStartWorkTime();
+
+        workTime.endWork();
+        LocalDateTime end = workTime.getEndWorkTime();
+
+        long workingMinutes = ChronoUnit.MINUTES.between(start, end);
+
+        assertThat(workingMinutes).isEqualTo(workTime.getWorkingMinutes());
     }
 }
