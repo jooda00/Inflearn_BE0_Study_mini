@@ -1,11 +1,14 @@
 package com.mini.commute.entity.employee;
 
 import com.mini.commute.entity.team.Team;
+import com.mini.commute.entity.workTime.WorkTime;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -25,6 +28,9 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩을 해야 join을 사용하지 않고 employee를 가져온다.(Team 객체는 프록시 객체로 로딩)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+    @OneToMany(mappedBy = "employee")
+    private List<WorkTime> workTimes = new ArrayList<WorkTime>();
 
     public Employee(String name, LocalDate birthday, LocalDate workStartDate, Role role) {
         this.name = name;
