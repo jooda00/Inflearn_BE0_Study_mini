@@ -3,8 +3,10 @@ package com.mini.commute.entity.annual;
 import com.mini.commute.entity.employee.Employee;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @Getter
 public class Annual {
     @Id
@@ -29,6 +31,10 @@ public class Annual {
         else {
             this.remainAnnual = 15;
         }
+    }
+
+    public void useAnnual() {
+        this.remainAnnual -= 1;
     }
 
     /* 연관관계 메소드 */
