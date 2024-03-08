@@ -31,7 +31,6 @@ public class AnnualTest {
         Annual annual = new Annual(employee);
 
         employee.setAnnual(annual);
-        annual.setEmployee(employee);
 
         assertThat(11).isEqualTo(annual.getRemainAnnual());
     }
@@ -45,8 +44,21 @@ public class AnnualTest {
         Annual annual = new Annual(employee);
 
         employee.setAnnual(annual);
-        annual.setEmployee(employee);
 
         assertThat(15).isEqualTo(annual.getRemainAnnual());
+    }
+
+    @DisplayName("연차를 신청하면 연차 1개가 차감된다.")
+    @Test
+    void useAnnual() {
+        employee = new Employee("신입", LocalDate.of(1990,01,01), LocalDate.of(2024,01,02), Role.MEMBER);
+        employeeRepository.save(employee);
+
+        Annual annual = new Annual(employee);
+
+        employee.setAnnual(annual);
+        annual.useAnnual();
+
+        assertThat(10).isEqualTo(annual.getRemainAnnual());
     }
 }
