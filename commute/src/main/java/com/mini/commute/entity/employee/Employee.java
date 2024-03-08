@@ -1,5 +1,6 @@
 package com.mini.commute.entity.employee;
 
+import com.mini.commute.entity.annual.Annual;
 import com.mini.commute.entity.team.Team;
 import com.mini.commute.entity.work.Work;
 import jakarta.persistence.*;
@@ -32,6 +33,10 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Work> works = new ArrayList<Work>();
 
+    @OneToOne
+    @JoinColumn(name = "ANNUAL_ID")
+    private Annual annual;
+
     public Employee(String name, LocalDate birthday, LocalDate workStartDate, Role role) {
         this.name = name;
         this.birthday = birthday;
@@ -49,5 +54,12 @@ public class Employee {
     public void setTeam(Team team) {
         this.team = team;
         team.getEmployees().add(this);
+    }
+
+    public void setAnnual(Annual annual) {
+        this.annual = annual;
+        if (annual.getEmployee() != this) {
+            annual.setEmployee(this);
+        }
     }
 }
