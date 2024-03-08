@@ -34,7 +34,7 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Work> works = new ArrayList<Work>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ANNUAL_ID")
     private Annual annual;
 
