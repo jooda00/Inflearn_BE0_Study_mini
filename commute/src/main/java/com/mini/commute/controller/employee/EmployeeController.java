@@ -21,7 +21,7 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public ResponseEntity<ResponseData> saveEmployee(@RequestBody EmployeeRequest request) {
-        ResponseData responseData = new ResponseData(200, request);
+        ResponseData responseData = new ResponseData(HttpStatus.OK.value(), request);
         employeeService.save(request);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
@@ -29,7 +29,7 @@ public class EmployeeController {
     @GetMapping("/employees")
     public ResponseEntity<ResponseData> getAllEmployees() {
         List<EmployeeResponse> employeeResponses = employeeService.getEmployees();
-        ResponseData responseData = new ResponseData(200, employeeResponses);
+        ResponseData responseData = new ResponseData(HttpStatus.OK.value(), employeeResponses);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 }

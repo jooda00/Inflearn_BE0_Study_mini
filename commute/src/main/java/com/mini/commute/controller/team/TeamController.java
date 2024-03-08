@@ -22,14 +22,14 @@ public class TeamController {
     @PostMapping("/teams")
     public ResponseEntity<ResponseData> saveTeam(@RequestBody TeamRequest request) {
         teamService.saveTeam(request);
-        ResponseData responseData = new ResponseData(200, request);
+        ResponseData responseData = new ResponseData(HttpStatus.OK.value(), request);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     @GetMapping("/teams")
     public ResponseEntity<ResponseData> getAllTeams() {
         List<TeamResponse> teamResponses = teamService.getTeamsByFetch();
-        ResponseData responseData = new ResponseData(200, teamResponses);
+        ResponseData responseData = new ResponseData(HttpStatus.OK.value(), teamResponses);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 }

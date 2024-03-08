@@ -22,21 +22,21 @@ public class WorkController {
     @PostMapping("/start/{id}/{date}")
     public ResponseEntity<ResponseData> startWork(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
         WorkResponse response = workService.startWork(id, date);
-        ResponseData responseData = new ResponseData(200, response);
+        ResponseData responseData = new ResponseData(HttpStatus.OK.value(), response);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     @PostMapping("/end/{id}/{date}")
     public ResponseEntity<ResponseData> endWork(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
         WorkResponse response = workService.endWork(id, date);
-        ResponseData responseData = new ResponseData(200, response);
+        ResponseData responseData = new ResponseData(HttpStatus.OK.value(), response);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/{date}")
     public ResponseEntity<ResponseData> getWorkingMinutes(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
         WorkResponseWithSum response = workService.getWorkingMinutes(id, date);
-        ResponseData responseData = new ResponseData(200, response);
+        ResponseData responseData = new ResponseData(HttpStatus.OK.value(), response);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 }
