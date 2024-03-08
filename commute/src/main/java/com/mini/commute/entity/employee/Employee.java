@@ -1,6 +1,7 @@
 package com.mini.commute.entity.employee;
 
 import com.mini.commute.entity.annual.Annual;
+import com.mini.commute.entity.annual.AnnualUsage;
 import com.mini.commute.entity.team.Team;
 import com.mini.commute.entity.work.Work;
 import jakarta.persistence.*;
@@ -36,6 +37,9 @@ public class Employee {
     @OneToOne
     @JoinColumn(name = "ANNUAL_ID")
     private Annual annual;
+
+    @OneToMany(mappedBy = "employee")
+    private List<AnnualUsage> annualUsages = new ArrayList<AnnualUsage>();
 
     public Employee(String name, LocalDate birthday, LocalDate workStartDate, Role role) {
         this.name = name;
