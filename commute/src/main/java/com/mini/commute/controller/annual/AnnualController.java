@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/v1/annuals")
 public class AnnualController {
@@ -18,9 +20,9 @@ public class AnnualController {
         this.annualService = annualService;
     }
 
-    @PostMapping("{id}")
-    public ResponseEntity<ResponseData> useAnnual(@PathVariable("id") Long id) {
-        AnnualRemainResponse response = annualService.useAnnual(id);
+    @PostMapping("{id}/{date}")
+    public ResponseEntity<ResponseData> registerAnnual(@PathVariable("id") Long id, @PathVariable("date") LocalDate date) {
+        AnnualRemainResponse response = annualService.useAnnual(id, date);
         ResponseData responseData = new ResponseData(200, response);
         return ResponseEntity.ok(responseData);
     }
