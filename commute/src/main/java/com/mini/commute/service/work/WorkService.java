@@ -46,7 +46,6 @@ public class WorkService {
         return new WorkResponse(work);
     }
 
-    // 퇴근 후 또 퇴근은?
     @Transactional
     public WorkResponse endWork(Long id, LocalDate date) {
         Employee employee = employeeRepository.findById(id)
@@ -54,6 +53,9 @@ public class WorkService {
         Work work = workRepository.findByDateAndEmployee(date, employee);
         if(work == null) {
             throw new CustomException(ErrorCode.EMPLOYEE_NOT_ARRIVED_AT_COMPANY);
+        }
+        else if(!work.isArrived()) {
+            throw new CustomException(ErrorCode.EMPLOYEE_ALREADY_LEAVE_COMPANY);
         }
         work.endWork();
 
