@@ -54,7 +54,7 @@ public class WorkService {
         if(work == null) {
             throw new CustomException(ErrorCode.EMPLOYEE_NOT_ARRIVED_AT_COMPANY);
         }
-        else if(!work.isArrived()) {
+        if(!work.isArrived()) {
             throw new CustomException(ErrorCode.EMPLOYEE_ALREADY_LEAVE_COMPANY);
         }
         work.endWork();
