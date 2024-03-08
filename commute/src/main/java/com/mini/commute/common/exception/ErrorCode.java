@@ -12,7 +12,9 @@ public enum ErrorCode {
 
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "T-01", "팀이 존재하지 않습니다"),
 
-    REMAIN_ANNUAL_NOT_EXISTED(HttpStatus.BAD_REQUEST, "A-01", "모든 연차를 소진했습니다.");
+    REMAIN_ANNUAL_NOT_EXISTED(HttpStatus.BAD_REQUEST, "A-01", "모든 연차를 소진했습니다."),
+    ANNUAL_ALREADY_USED(HttpStatus.BAD_REQUEST, "A-02", "해당 날짜에 이미 연차를 신청했습니다."),
+    ANNUAL_REGISTRATION_DATE_HAS_PASSED(HttpStatus.BAD_REQUEST, "A-03", "연차 신청일이 지났습니다.");
 
     private final HttpStatus httpStatus;
     private final String customCode;
